@@ -1,0 +1,6 @@
+@SnaptagOwnKioskInternalBackend_HostAddress = http://localhost:5058
+
+GET {{SnaptagOwnKioskInternalBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
