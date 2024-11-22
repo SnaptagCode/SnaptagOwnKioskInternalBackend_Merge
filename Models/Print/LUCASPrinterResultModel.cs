@@ -3,6 +3,6 @@
     public class LUCASPrinterResultModel
     {
         public bool isSuccess { get; set; } = false;
-        public LUCASPrinterErrorModel? Error { get; set; };
+        public LUCASPrinterErrorModel? Error { get; set; }
     }
 }

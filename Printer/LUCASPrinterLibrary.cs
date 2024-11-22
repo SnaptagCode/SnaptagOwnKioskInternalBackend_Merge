@@ -79,7 +79,9 @@ namespace SnaptagOwnKioskInternalBackend.Printer
         //unsigned int DSSDK R600SetWaterMarkParam(int nRotation, unsigned char isNeedMirror);
         [DllImport("Libs\\libDSRetransfer600App.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
         public static extern UInt32 R600SetWaterMarkParam(int nRotation, Int16 isNeedMirror);
-
+        //unsigned int DSSDK R600SetWaterMarkParam(int nRotation, unsigned char isNeedMirror);
+        [DllImport("Libs\\libDSRetransfer600App.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]
+        public static extern UInt32 R600SetImagePara(int whiteTransparency,int nRotation, float fScale);
 
         // unsigned int DSSDK R600SetWaterMarkThreshold(int Threshold);
         [DllImport("Libs\\libDSRetransfer600App.dll", CharSet = CharSet.Unicode, CallingConvention = CallingConvention.StdCall)]

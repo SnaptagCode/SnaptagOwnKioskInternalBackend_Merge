@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Exceptions;
 using SnaptagOwnKioskInternalBackend.DBContexts;
+using SnaptagOwnKioskInternalBackend.Printer;
 using SnaptagOwnKioskInternalBackend.Services;
+using SnaptagOwnKioskInternalBackend.Setting;
 
 namespace SnaptagOwnKioskInternalBackend
 {
@@ -30,13 +32,12 @@ namespace SnaptagOwnKioskInternalBackend
                 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
-
                 builder.WebHost.UseUrls("http://127.0.0.1:8798");
-
                 builder.Services.AddDbContext<SnaptagKioskDBContext>(options => options.UseSqlite("Data Source=SnaptagKiosk.db").LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name },
                    LogLevel.Information).EnableSensitiveDataLogging());
                 builder.Services.AddScoped<PaymentService>();
                 builder.Services.AddScoped<PrinterService>();
+                builder.Services.AddHttpClient<PaymentService>();
                 var app = builder.Build();
 
                 app.UseSwagger();
@@ -46,7 +47,11 @@ namespace SnaptagOwnKioskInternalBackend
 
 
                 app.MapControllers();
-
+                LUCASPrinter print = new LUCASPrinter();
+                print.InitPrinter();
+                var res = print.GetPrinerStatus();
+                ProgramSettingManager manager = ProgramSettingManager.Instance;
+                
                 app.Run();
             }
             catch (Exception ex)

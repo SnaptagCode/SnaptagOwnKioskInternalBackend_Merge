@@ -23,7 +23,7 @@
         }
         public KiccPaymentData(RequestPurchaseModel req) : this()
         {
-            Amount = req.PurchaseAmount;
+            Amount = req.PaymentAmount;
             Timeout = req.Timeout;
 
         }

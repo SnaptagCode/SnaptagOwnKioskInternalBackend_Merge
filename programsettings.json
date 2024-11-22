@@ -1,0 +1,13 @@
+{
+  "AlphaCode": 1,
+  "BravoCode": 1,
+  "CharlieCode": 1,
+  "DeltaCode": 1,
+  "EchoCode": 1,
+  "FoxtrotCode": 1,
+  "Size": 3,
+  "Strength": 16,
+  "BackendAddress": "https://devsnaptagkioskownapi.snaptag-kiosk.com/",
+  "UploadPurchaseRecordURL": "Purchase/UploadPurchasRecord",
+  "UpdatePurchaseStateURL": "Purchase/UpdatedPurchasRecord"
+}

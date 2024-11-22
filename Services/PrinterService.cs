@@ -22,13 +22,11 @@ namespace SnaptagOwnKioskInternalBackend.Services
             ResponsePrintResultModel? res = null;
             try
             {
-#if DEBUG
-                await Task.Delay(20000);
+                await Task.Delay(120000);
                 return new ResponsePrintResultModel()
                 {
                     isSuccess = true,
                 };
-#endif
             }
             catch (Exception ex) 
             {
