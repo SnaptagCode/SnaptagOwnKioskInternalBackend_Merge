@@ -153,8 +153,8 @@ namespace SnaptagOwnKioskInternalBackend.Printer
                     Log.Error("Failed to setRibbonOpt");
                     return setRibbonOpt;
                 };
-                frontPath = frontImage.SaveImageToTempDirectory(isFront: true);
-                rearPath = rearImage.SaveImageToTempDirectory(isFront: false);
+                frontPath = frontImage.SaveImageToTempDirectory(isFront: true).GetEmbeddedImage();
+                rearPath = rearImage.SaveImageToTempDirectory(isFront: false).GetEmbeddedImage();
                 StringBuilder frontStrBuilder = new StringBuilder();
                 StringBuilder rearStrBuilder = new StringBuilder();
                 LUCASPrinterResultModel frontCommited = PrepareCanvasWithImage(ref frontStrBuilder, frontPath, true);
