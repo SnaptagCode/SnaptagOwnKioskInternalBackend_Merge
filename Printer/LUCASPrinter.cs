@@ -7,6 +7,10 @@ using System.Text;
 
 namespace SnaptagOwnKioskInternalBackend.Printer
 {
+    /// <summary>
+    /// 프린트를 위한 싱글톤 객체, 
+    /// 주의! 버그 있음(이미지 출력을 위해 캔버스 생성 시,빈 텍스트를 만들지 않으면 이미지 출력 안 됨) 
+    /// </summary>
     public class LUCASPrinter
     {
         private const double width = 53.98;
@@ -147,8 +151,8 @@ namespace SnaptagOwnKioskInternalBackend.Printer
                     Log.Error("Failed to setRibbonOpt");
                     return setRibbonOpt;
                 };
-                frontPath = frontImage.SaveImageToTempDirectory(isFront: true).GetEmbeddedImage();
-                rearPath = rearImage.SaveImageToTempDirectory(isFront: false).GetEmbeddedImage();
+                frontPath = frontImage.SaveImageToTempDirectory(isFront: true);
+                rearPath = rearImage.SaveImageToTempDirectory(isFront: true);
                 StringBuilder frontStrBuilder = new StringBuilder();
                 StringBuilder rearStrBuilder = new StringBuilder();
                 LUCASPrinterResultModel frontCommited = PrepareCanvasWithImage(ref frontStrBuilder, frontPath, true);
@@ -359,13 +363,14 @@ namespace SnaptagOwnKioskInternalBackend.Printer
                 }
                 if(isFront == false)
                 {
-                    result = LUCASPrinterLibrary.R600SetImagePara(1, 180, 1);
+                    result = LUCASPrinterLibrary.R600SetImagePara(1, 90, 1);
                     if (result != 0)
                     {
                         res.Error = OutputError(result);
                         return res;
                     }
                 }
+                // 
                 LUCASPrinterLibrary.R600SetFont("black", 7);
                 LUCASPrinterLibrary.R600SetTextIsStrong(1);
                 LUCASPrinterLibrary.R600DrawText(26, 5, 52, 6, " ", 1);
