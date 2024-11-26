@@ -2,6 +2,8 @@
 using SnaptagOwnKioskInternalBackend.Models.Print;
 using SnaptagOwnKioskInternalBackend.Models.Print.SnaptagOwnKioskInternalBackend.Models.Print;
 using SnaptagOwnKioskInternalBackend.Utility;
+using System.Drawing.Imaging;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -152,7 +154,7 @@ namespace SnaptagOwnKioskInternalBackend.Printer
                     return setRibbonOpt;
                 };
                 frontPath = frontImage.SaveImageToTempDirectory(isFront: true);
-                rearPath = rearImage.SaveImageToTempDirectory(isFront: true);
+                rearPath = rearImage.SaveImageToTempDirectory(isFront: false);
                 StringBuilder frontStrBuilder = new StringBuilder();
                 StringBuilder rearStrBuilder = new StringBuilder();
                 LUCASPrinterResultModel frontCommited = PrepareCanvasWithImage(ref frontStrBuilder, frontPath, true);
@@ -361,15 +363,16 @@ namespace SnaptagOwnKioskInternalBackend.Printer
                     res.Error = OutputError(result);
                     return res;
                 }
+                /*
                 if(isFront == false)
                 {
-                    result = LUCASPrinterLibrary.R600SetImagePara(1, 90, 1);
+                    result = LUCASPrinterLibrary.R600SetImagePara(1, 180, 1);
                     if (result != 0)
                     {
                         res.Error = OutputError(result);
                         return res;
                     }
-                }
+                }*/
                 // 
                 LUCASPrinterLibrary.R600SetFont("black", 7);
                 LUCASPrinterLibrary.R600SetTextIsStrong(1);
@@ -396,7 +399,25 @@ namespace SnaptagOwnKioskInternalBackend.Printer
 
             return res;
         }
+        public byte[] FlipImage180(byte[] imageBytes)
+        {
+            // byte[] -> Bitmap 변환
+            using (var ms = new MemoryStream(imageBytes))
+            {
+                using (var bitmap = new Bitmap(ms))
+                {
+                    // 180도 뒤집기
+                    bitmap.RotateFlip(RotateFlipType.Rotate180FlipNone);
 
+                    // Bitmap -> byte[] 변환
+                    using (var resultStream = new MemoryStream())
+                    {
+                        bitmap.Save(resultStream, ImageFormat.Png); // PNG로 저장
+                        return resultStream.ToArray();
+                    }
+                }
+            }
+        }
         //RE = MethodGroup.R600SetRibbonOpt(1, 0, printYmcsMode.ToString(), printYmcsMode.ToString().Length + 1);
         public LUCASPrinterResultModel SetRibbonOpt()
         {

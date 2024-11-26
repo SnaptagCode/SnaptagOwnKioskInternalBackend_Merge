@@ -142,7 +142,7 @@ namespace SnaptagOwnKioskInternalBackend.Utility
             using (Image image = Image.FromStream(inputStream))
             {
                 // 이미지를 상하반전
-                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                image.RotateFlip(RotateFlipType.Rotate180FlipNone);
 
                 using (MemoryStream outputStream = new MemoryStream())
                 {
